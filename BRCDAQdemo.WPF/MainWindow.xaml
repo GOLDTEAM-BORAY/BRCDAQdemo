@@ -1,0 +1,59 @@
+﻿<Window x:Class="BRCDAQdemo.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BRCDAQdemo.WPF" 
+        mc:Ignorable="d"
+        Title="选择板卡" Height="350" Width="790" Icon="/logo.ico" ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--<StackPanel Grid.Row="0">
+            <Menu >
+                <MenuItem Header="日志" Command="{Binding OpenLogViewerCommand}" />
+                <MenuItem Header="帮助">
+                    <MenuItem Header="下载SDK" Command="{Binding ExportSDKCommand}" />
+                    <MenuItem Header="关于" Command="{Binding OpenAboutCommand}" />
+                </MenuItem>
+            </Menu>
+        </StackPanel>-->
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <!--<Button Name="scanButton" Command="{Binding StartScanCommand}" IsEnabled="{Binding Scanning,Converter={StaticResource InverseBooleanConverter}}" Content="{Binding ScanButtonText}"></Button>-->
+            <Button Name="scanButton" Command="{Binding StartScanCommand}" Content="{Binding ScanButtonText}"/>
+            <!--<Button Name="connectButton" Command="{Binding ConnectCommand}" IsEnabled="{Binding ConnectButtonEnabled}"  Content="{Binding ConnectButtonText}"></Button>
+            <Button Name="startAdcViaUdpButton" Command="{Binding TrigStartViaUdpCommand}">启动采样UDP</Button>-->
+        </StackPanel>
+
+        <!--<ListView Grid.Row="2" Margin="10" ItemsSource="{Binding Modules}" SelectedItem="{Binding SelectedModule}">
+            <ListView.ContextMenu>
+                -->
+        <!-- ContextMenu IsEnabled="{Binding SelectedModule.Interface}"-->
+        <!--
+                <ContextMenu >
+                    <MenuItem Header="设置" Command="{Binding OpenConfigCommand}" CommandParameter="{Binding SelectedModule}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridViewColumn Header="IP/USB" Width="110" DisplayMemberBinding="{Binding Converter={StaticResource ModuleInfoIPorUSBConverter}}" />
+                    <GridViewColumn Header="设备ID" Width="190" DisplayMemberBinding="{Binding DeviceId}"  />
+                    <GridViewColumn Header="型号" Width="120"  DisplayMemberBinding="{Binding ProductName}" />
+                    <GridViewColumn Header="硬件版本" Width="120"  DisplayMemberBinding="{Binding HardwareVersion}"  />
+                    <GridViewColumn Header="固件版本" Width="120"  DisplayMemberBinding="{Binding FirmwareVersion}"  />
+                    <GridViewColumn Header="通道数" Width="80" DisplayMemberBinding="{Binding ChannelCount}" />
+                </GridView>
+            </ListView.View>
+        </ListView>-->
+    </Grid>
+</Window>

@@ -1,0 +1,160 @@
+﻿<Window x:Class="BRCDAQdemo.WPF.ScopeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BRCDAQdemo.WPF"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+        mc:Ignorable="d"
+        Title="ScopeWindow" Height="450" Width="800">
+
+
+    <Grid IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <ScottPlot:WpfPlot Name="WpfPlot1" Grid.Column="0" Margin="0 0 0 0"/>
+
+        <ScrollViewer  Grid.Column="1" Margin="10" VerticalAlignment="Center">
+            <!--<StackPanel >
+
+                <GroupBox Header="波形">
+
+                    <StackPanel VerticalAlignment="Center">
+
+                        <ItemsControl  ItemsSource="{Binding ChannelProperties}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel MaxWidth="160"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Id}"  ContentStringFormat="通道0"  Foreground="{Binding Color}" IsChecked="{Binding ShowSignal}" Width="65" Margin="8 2.5 0 2.5"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+                                <ColumnDefinition Width="*" SharedSizeGroup="B"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0">自动适应:</Label>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <RadioButton IsChecked="{Binding Path=IsAxisAuto}">是</RadioButton>
+                                <RadioButton IsChecked="{Binding Path=IsAxisAuto,Converter={StaticResource InverseBooleanConverter}}" Margin="6 0 0 0">否</RadioButton>
+                            </StackPanel>
+
+                            <Label Grid.Row="1">暂停显示:</Label>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <RadioButton IsChecked="{Binding Path=IsPaused}">是</RadioButton>
+                                <RadioButton IsChecked="{Binding Path=IsPaused,Converter={StaticResource InverseBooleanConverter}}" Margin="6 0 0 0">否</RadioButton>
+                            </StackPanel>
+
+                            <Label Grid.Row="2">信号处理:</Label>
+                            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding SignalProcessors}" SelectedItem="{Binding SelectedSignalProcessor}" Height="20" HorizontalContentAlignment="Stretch" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                <ComboBox.Resources>
+                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
+                                </ComboBox.Resources>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="设置">
+                    <StackPanel VerticalAlignment="Center">
+                        <Grid IsEnabled="{Binding Started,Converter={StaticResource InverseBooleanConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+                                <ColumnDefinition Width="*" SharedSizeGroup="B"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0">采样率:</Label>
+                            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding ModuleInfo.SampleRateOptions}" SelectedItem="{Binding SelectedSampleRate}" Height="20" HorizontalContentAlignment="Stretch" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                <ComboBox.Resources>
+                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
+                                </ComboBox.Resources>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource SampleRateConverter}}" VerticalAlignment="Center" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <Label Grid.Row="1">采样点:</Label>
+                            <TextBox Grid.Row="1" Grid.Column="1" PreviewTextInput="NumberValidationTextBox" Text="{Binding PointCount}"></TextBox>
+
+
+                            <ItemsControl ItemsSource="{Binding ChannelProperties}" Grid.Row="2" Grid.ColumnSpan="2">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Label Content="{Binding Id}" ContentStringFormat="ch0:" Foreground="{Binding Color}"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <RadioButton  IsChecked="{Binding Path=SelectedCoupling, Converter={StaticResource EnumConverter}, ConverterParameter={x:Static sdk_models:CouplingMode.Dc}}">DC</RadioButton>
+                                                <RadioButton  IsChecked="{Binding Path=SelectedCoupling, Converter={StaticResource EnumConverter}, ConverterParameter={x:Static sdk_models:CouplingMode.Ac}}" Margin="5 0 0 0">AC</RadioButton>
+                                            </StackPanel>
+                                            <ComboBox ItemsSource="{Binding DataContext.ModuleInfo.CurrentOptions, RelativeSource={RelativeSource AncestorType=Window}}" SelectedItem="{Binding SelectedCurrent}" Height="20" Width="40" HorizontalContentAlignment="Stretch" xmlns:sys="clr-namespace:System;assembly=mscorlib" Margin="5 0 0 0">
+                                                <ComboBox.Resources>
+                                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
+                                                </ComboBox.Resources>
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource CurrentConverter}}" VerticalAlignment="Center" TextAlignment="Center"/>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Label Grid.Row="5">数据模式:</Label>
+                            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <RadioButton IsChecked="{Binding Path=RawValue,Converter={StaticResource InverseBooleanConverter}}">正常</RadioButton>
+                                <RadioButton IsChecked="{Binding Path=RawValue}" Margin="6 0 0 0">原始</RadioButton>
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Margin="5" Command="{Binding CalibrateAsyncCommand}">校准</Button>
+                            <Button Margin="5" Command="{Binding StartCommand}" Content="{Binding StartButtonContent}" Background="{Binding StartButtonBackground}"></Button>
+                        </StackPanel>
+                        <Button Margin="5" Command="{Binding SaveLongTermDataAsyncCommand}">长期数据保存</Button>
+
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>-->
+        </ScrollViewer >
+
+    </Grid>
+    
+    
+</Window>

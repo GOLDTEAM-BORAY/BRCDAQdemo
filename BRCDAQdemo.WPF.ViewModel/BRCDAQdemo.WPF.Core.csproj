@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+	<LangVersion>Latest</LangVersion>
+	<Platforms>AnyCPU;x64;x86</Platforms>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Platform)' == 'x86'">
+		<DefineConstants>X86</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Platform)' == 'x64'">
+		<DefineConstants>X64</DefineConstants>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Lib\*\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+</Project>
