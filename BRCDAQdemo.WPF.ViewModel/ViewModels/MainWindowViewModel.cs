@@ -1,5 +1,4 @@
 ﻿using BRCDAQdemo.WPF.Core.Lib;
-using BRCDAQdemo.WPF.Core.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -36,7 +35,7 @@ namespace BRCDAQdemo.WPF.Core.ViewModels
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ConnectButtonEnabled))]
-        private ModuleInfo selectedModule = null;
+        private BRCSDK.ModuleInfo? selectedModule = null;
 
         public bool ConnectButtonEnabled => SelectedModule != null && !Connecting;
 
@@ -75,13 +74,8 @@ namespace BRCDAQdemo.WPF.Core.ViewModels
         private async Task StartScanAsync()
         {
             Scanning = true;
-            var moduleCount = BRCSDK.ScanModules();
-            var productName = BRCSDK.GetModuleInfoProductName(0);
-            var deviceId = BRCSDK.GetModuleInfoDeviceId(0);
-            var channelCount = BRCSDK.GetModuleInfoChannelCount(0);
-            var sampleRateOptions = BRCSDK.GetModuleInfoSampleRateOptions(0);
-            var currentOptions = BRCSDK.GetModuleInfoSampleCurrentOptions(0);
-            var couplingOptions = BRCSDK.GetModuleInfoSampleCouplingOptions(0);
+            var moduleInfos = BRCSDK.ScanModules();
+
             Scanning = false;
         }
 
