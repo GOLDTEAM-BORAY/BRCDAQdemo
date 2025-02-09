@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Nullable>enable</Nullable>
-	<LangVersion>Latest</LangVersion>
+	<LangVersion>8.0</LangVersion>
 	<Platforms>AnyCPU;x64;x86</Platforms>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -13,6 +12,9 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Platform)' == 'x64'">
 		<DefineConstants>X64</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 
   <ItemGroup>

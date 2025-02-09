@@ -6,6 +6,19 @@ using System.Text;
 
 namespace BRCDAQdemo.WPF.Core.Lib
 {
+
+    public enum CouplingMode : int
+    {
+        DC = 0,
+        AC = 1,
+    }
+    public enum SourceType : int
+    {
+        ONBOARD = 0,
+        EXTERNAL = 1,
+    }
+
+
     public static class BRCSDK
     {
 #if X64
@@ -14,17 +27,6 @@ namespace BRCDAQdemo.WPF.Core.Lib
         private const string DLLPATH = "Lib/x86/brc_daq_sdk.dll";
 #endif
 
-
-        public enum CouplingMode : int
-        {
-            DC = 0,
-            AC = 1,
-        }
-        public enum SourceType : int
-        {
-            ONBOARD = 0,
-            EXTERNAL = 1,
-        }
 
 
         #region GetLastError
@@ -64,7 +66,7 @@ namespace BRCDAQdemo.WPF.Core.Lib
         private static extern int scan_modules();
 
 
-        private static List<ModuleInfo> _moduleInfos = [];
+        private static List<ModuleInfo> _moduleInfos = new List<ModuleInfo>();
 
         public static List<ModuleInfo> ScanModules()
         {
@@ -256,38 +258,48 @@ namespace BRCDAQdemo.WPF.Core.Lib
 
 
 
-        public class ModuleInfo()
+        public class ModuleInfo
         {
             public string DeviceId { get; set; }
             public string ProductName { get; set; }
-            public List<double> GainOptions { get; set; } = [];
-            public List<double> SampleRateOptions { get; set; } = [];
-            public List<double> CurrentOptions { get; set; } = [];
-            public List<CouplingMode> CouplingOptions { get; set; } = [];
+            public List<double> GainOptions { get; set; } = new List<double>();
+            public List<double> SampleRateOptions { get; set; } = new List<double>();
+            public List<double> CurrentOptions { get; set; } = new List<double>();
+            public List<CouplingMode> CouplingOptions { get; set; } = new List<CouplingMode>();
             public int ChannelCount { get; set; }
         }
 
-        public class BrcDevice(int mHandle, ModuleInfo ModuleInfo) : IDisposable
+        public class BrcDevice : IDisposable
         {
+            private readonly int _mHandle;
+            private readonly ModuleInfo _moduleInfo;
+            public BrcDevice(int mHandle, ModuleInfo moduleInfo)
+            {
+                _mHandle = mHandle;
+                _moduleInfo = moduleInfo;
+            }
+            public ModuleInfo ModuleInfo => _moduleInfo;
+
+
             #region 获取/设置设备参数
             public unsafe SourceType GetModulePropertyClockSource()
             {
                 int clockSource = 0;
-                if (get_module_property(mHandle, ModulePropertyType.ClockSource, &clockSource, null) != 0)
+                if (get_module_property(_mHandle, ModulePropertyType.ClockSource, &clockSource, null) != 0)
                     throw new Exception(GetLastError());
                 return (SourceType)clockSource;
             }
             public unsafe SourceType GetModulePropertyTrigerSource()
             {
                 int trigerSource = 0;
-                if (get_module_property(mHandle, ModulePropertyType.TrigerSource, &trigerSource, null) != 0)
+                if (get_module_property(_mHandle, ModulePropertyType.TrigerSource, &trigerSource, null) != 0)
                     throw new Exception(GetLastError());
                 return (SourceType)trigerSource;
             }
             public unsafe double GetModulePropertySampleRate()
             {
                 double sampleRate = 0;
-                if (get_module_property(mHandle, ModulePropertyType.SampleRate, &sampleRate, null) != 0)
+                if (get_module_property(_mHandle, ModulePropertyType.SampleRate, &sampleRate, null) != 0)
                     throw new Exception(GetLastError());
                 return sampleRate;
             }
@@ -295,18 +307,18 @@ namespace BRCDAQdemo.WPF.Core.Lib
             public unsafe void SetModulePropertyClockSource(SourceType sourceType)
             {
                 int source = (int)sourceType;
-                if (set_module_property(mHandle, ModulePropertyType.ClockSource, &source, null) != 0)
+                if (set_module_property(_mHandle, ModulePropertyType.ClockSource, &source, null) != 0)
                     throw new Exception(GetLastError());
             }
             public unsafe void SetModulePropertyTrigerSource(SourceType sourceType)
             {
                 int source = (int)sourceType;
-                if (set_module_property(mHandle, ModulePropertyType.TrigerSource, &source, null) != 0)
+                if (set_module_property(_mHandle, ModulePropertyType.TrigerSource, &source, null) != 0)
                     throw new Exception(GetLastError());
             }
             public unsafe void SetModulePropertySampleRate(double sampleRate)
             {
-                if (set_module_property(mHandle, ModulePropertyType.SampleRate, &sampleRate, null) != 0)
+                if (set_module_property(_mHandle, ModulePropertyType.SampleRate, &sampleRate, null) != 0)
                     throw new Exception(GetLastError());
             }
             #endregion
@@ -315,78 +327,78 @@ namespace BRCDAQdemo.WPF.Core.Lib
             public unsafe bool GetChannelPropertyEnabled(int channelIndex)
             {
                 byte enabled = 0;
-                if (get_channel_property(mHandle, channelIndex, ChannelPropertyType.Enabled, &enabled, null) != 0)
+                if (get_channel_property(_mHandle, channelIndex, ChannelPropertyType.Enabled, &enabled, null) != 0)
                     throw new Exception(GetLastError());
                 return enabled != 0;
             }
             public unsafe double GetChannelPropertyGain(int channelIndex)
             {
                 double gain = 0;
-                if (get_channel_property(mHandle, channelIndex, ChannelPropertyType.Gain, &gain, null) != 0)
+                if (get_channel_property(_mHandle, channelIndex, ChannelPropertyType.Gain, &gain, null) != 0)
                     throw new Exception(GetLastError());
                 return gain;
             }
             public unsafe double GetChannelPropertyCurrent(int channelIndex)
             {
                 double current = 0;
-                if (get_channel_property(mHandle, channelIndex, ChannelPropertyType.Current, &current, null) != 0)
+                if (get_channel_property(_mHandle, channelIndex, ChannelPropertyType.Current, &current, null) != 0)
                     throw new Exception(GetLastError());
                 return current;
             }
             public unsafe CouplingMode GetChannelPropertyCouplingMode(int channelIndex)
             {
                 int couplingMode = 0;
-                if (get_channel_property(mHandle, channelIndex, ChannelPropertyType.CouplingMode, &couplingMode, null) != 0)
+                if (get_channel_property(_mHandle, channelIndex, ChannelPropertyType.CouplingMode, &couplingMode, null) != 0)
                     throw new Exception(GetLastError());
                 return (CouplingMode)couplingMode;
             }
             public unsafe void SetChannelPropertyEnabled(int channelIndex, bool enabled)
             {
                 byte value = (byte)(enabled ? 1 : 0);
-                if (set_channel_property(mHandle, channelIndex, ChannelPropertyType.Enabled, &value, null) != 0)
+                if (set_channel_property(_mHandle, channelIndex, ChannelPropertyType.Enabled, &value, null) != 0)
                     throw new Exception(GetLastError());
             }
             public unsafe void SetChannelPropertyGain(int channelIndex, double gain)
             {
-                if (set_channel_property(mHandle, channelIndex, ChannelPropertyType.Gain, &gain, null) != 0)
+                if (set_channel_property(_mHandle, channelIndex, ChannelPropertyType.Gain, &gain, null) != 0)
                     throw new Exception(GetLastError());
             }
             public unsafe void SetChannelPropertyCurrent(int channelIndex, double current)
             {
-                if (set_channel_property(mHandle, channelIndex, ChannelPropertyType.Current, &current, null) != 0)
+                if (set_channel_property(_mHandle, channelIndex, ChannelPropertyType.Current, &current, null) != 0)
                     throw new Exception(GetLastError());
             }
             public unsafe void SetChannelPropertyCouplingMode(int channelIndex, CouplingMode couplingMode)
             {
                 int value = (int)couplingMode;
-                if (set_channel_property(mHandle, channelIndex, ChannelPropertyType.CouplingMode, &value, null) != 0)
+                if (set_channel_property(_mHandle, channelIndex, ChannelPropertyType.CouplingMode, &value, null) != 0)
                     throw new Exception(GetLastError());
             }
             #endregion
 
             public void Disconnect()
             {
-                if (disconnect_module(mHandle) < 0)
+                if (disconnect_module(_mHandle) < 0)
                     throw new Exception(GetLastError());
             }
             public void Start()
             {
-                if (start(mHandle, false) != 0)
+                if (start(_mHandle, false) != 0)
                     throw new Exception(GetLastError());
             }
             public void Stop()
             {
-                if (stop(mHandle) != 0)
+                if (stop(_mHandle) != 0)
                     throw new Exception(GetLastError());
             }
             public unsafe void GetChannelsData(Memory<double> array, TimeSpan timeout)
             {
-                if (array.Length % ModuleInfo.ChannelCount != 0)
+                if (array.Length % _moduleInfo.ChannelCount != 0)
                     throw new InvalidOperationException("数组长度必须是通道数的整数倍");
                 var handle = array.Pin();
                 try
                 {
-                    if (get_channels_data(mHandle, (double*)handle.Pointer, array.Length / ModuleInfo.ChannelCount, 0, (int)timeout.TotalMilliseconds) != 0)
+                    if (get_channels_data(_mHandle, (double*)handle.Pointer, array.Length / _moduleInfo.ChannelCount, 0, (int)timeout.TotalMilliseconds) != 0)
                         throw new Exception(GetLastError());
                 }
                 finally

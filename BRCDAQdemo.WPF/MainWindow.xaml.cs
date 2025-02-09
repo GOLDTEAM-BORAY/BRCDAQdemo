@@ -1,18 +1,8 @@
 ﻿using BRCDAQdemo.WPF.Core.ViewModels;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using static BRCDAQdemo.WPF.Core.Lib.BRCSDK;
 
 namespace BRCDAQdemo.WPF
 {
@@ -25,6 +15,29 @@ namespace BRCDAQdemo.WPF
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel();
+
+            WeakReferenceMessenger.Default.Register<ModuleInfo>(this, (r, moduleInfo) =>
+            {
+                try
+                {
+                    var brcDevice = Connect(moduleInfo);
+                    var scopeWindow = new ScopeWindow();
+                    var scopeWindowViewModel = new ScopeWindowViewModel()
+                    {
+                        Renderer = scopeWindow,
+                        Device = brcDevice
+                    };
+                    scopeWindow.DataContext = scopeWindowViewModel;
+                    scopeWindow.Closed += (s, e) => scopeWindowViewModel.Dispose();
+                    scopeWindow.Show();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "连接失败", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            });
+
         }
+
     }
 }
