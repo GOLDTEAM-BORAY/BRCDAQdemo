@@ -5,7 +5,7 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BRCDAQdemo.WPF", "BRCDAQdemo.WPF\BRCDAQdemo.WPF.csproj", "{364BCBD2-7673-42A7-B9A8-0230977506EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BRCDAQdemo.WPF.Core", "BRCDAQdemo.WPF.ViewModel\BRCDAQdemo.WPF.Core.csproj", "{C4B5457C-1EBF-4FF0-9D0B-8382C7BB8BF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BRCDAQdemo.WPF.Core", "BRCDAQdemo.WPF.Core\BRCDAQdemo.WPF.Core.csproj", "{C4B5457C-1EBF-4FF0-9D0B-8382C7BB8BF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

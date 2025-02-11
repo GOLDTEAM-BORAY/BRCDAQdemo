@@ -44,9 +44,10 @@ namespace BRCDAQdemo.WPF.Core.ViewModels
         }
 
         [RelayCommand]
-        private void Connect()
+        private async Task Connect()
         {
             WeakReferenceMessenger.Default.Send(SelectedModule!);
+            await StartScanAsync();
         }
 
 

@@ -3,7 +3,6 @@ using BRCDAQdemo.WPF.Core.ViewModels;
 using ScottPlot;
 using ScottPlot.DataSources;
 using ScottPlot.Plottables;
-using ScottPlot.WPF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +19,13 @@ namespace BRCDAQdemo.WPF
     /// </summary>
     public partial class ScopeWindow : Window, IRenderable
     {
-        private static readonly ScottPlot.Palettes.Microcharts palette = new ScottPlot.Palettes.Microcharts();
+        //图表曲线配色方案
+        private static readonly ScottPlot.Palettes.Category10 palette = new ScottPlot.Palettes.Category10();
         public ScopeWindow()
         {
             InitializeComponent();
 
+            //设置图表背景样式
             // give the plot a dark background with light text
             WpfPlot1.Plot.FigureBackground.Color = new Color("#1c1c1e");
             WpfPlot1.Plot.Axes.Color(new Color("#888888"));
@@ -48,7 +49,7 @@ namespace BRCDAQdemo.WPF
         }
 
 
-        private static Regex NumberRegex = new Regex("[^0-9]+");
+        private static readonly Regex NumberRegex = new Regex("[^0-9]+");
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             e.Handled = NumberRegex.IsMatch(e.Text);
