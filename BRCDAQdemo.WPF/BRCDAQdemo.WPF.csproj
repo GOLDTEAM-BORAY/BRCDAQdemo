@@ -186,22 +186,19 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces">
-      <Version>9.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="OpenTK">
-      <Version>3.3.3</Version>
+      <Version>9.0.9</Version>
     </PackageReference>
     <PackageReference Include="ScottPlot.WPF">
-      <Version>5.0.54</Version>
+      <Version>5.0.56</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common">
-      <Version>9.0.1</Version>
+      <Version>9.0.9</Version>
     </PackageReference>
     <PackageReference Include="System.Memory">
-      <Version>4.6.0</Version>
+      <Version>4.6.3</Version>
     </PackageReference>
     <PackageReference Include="System.Threading.Tasks.Extensions">
-      <Version>4.6.0</Version>
+      <Version>4.6.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
