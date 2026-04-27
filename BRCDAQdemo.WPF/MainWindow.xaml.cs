@@ -1,8 +1,8 @@
-﻿using BRCDAQdemo.WPF.Core.ViewModels;
+using BRCDAQdemo.Core.ViewModels;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Windows;
-using static BRCDAQdemo.WPF.Core.Lib.BRCSDK;
+using static BRCDAQdemo.Core.Lib.BRCSDK;
 
 namespace BRCDAQdemo.WPF
 {

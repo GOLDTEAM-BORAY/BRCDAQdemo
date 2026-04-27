@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BRCDAQdemo.WPF" 
         xmlns:converter="clr-namespace:BRCDAQdemo.WPF.Converter"
         mc:Ignorable="d"
-        Title="选择板卡" Height="300" Width="450" Icon="/logo.ico" ResizeMode="CanMinimize">
+        Title="选择板卡" Height="300" Width="520" Icon="/logo.ico" ResizeMode="CanMinimize">
 
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
@@ -40,6 +40,7 @@
                     <GridViewColumn Header="设备ID" Width="190" DisplayMemberBinding="{Binding DeviceId}"  />
                     <GridViewColumn Header="型号" Width="120"  DisplayMemberBinding="{Binding ProductName}" />
                     <GridViewColumn Header="通道数" Width="80" DisplayMemberBinding="{Binding ChannelCount}" />
+                    <GridViewColumn Header="接口" Width="70" DisplayMemberBinding="{Binding InterfaceType}" />
                 </GridView>
             </ListView.View>
         </ListView>

@@ -1,0 +1,54 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="BRCDAQdemo.Avalonia.Views.MainWindow"
+        Width="620"
+        Height="360"
+        MinWidth="560"
+        MinHeight="320"
+        Title="选择板卡">
+
+  <Grid RowDefinitions="Auto,*">
+    <Border Grid.Row="0"
+            Background="{DynamicResource SurfaceElevatedBrush}"
+            BorderBrush="{DynamicResource SurfaceBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="16,12">
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+          <Border Width="6" Height="6" CornerRadius="3" Background="{DynamicResource BrandPrimaryBrush}" />
+          <TextBlock Text="设备列表" FontWeight="SemiBold" VerticalAlignment="Center" />
+          <TextBlock Text="{Binding ModuleInfos.Count, StringFormat=· {0} 个}"
+                     Foreground="{DynamicResource TextSecondaryBrush}"
+                     VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+          <Button Command="{Binding StartScanCommand}"
+                  IsEnabled="{Binding !Scanning}"
+                  Content="{Binding ScanButtonText}" />
+          <Button Classes="primary"
+                  Command="{Binding ConnectCommand}"
+                  IsEnabled="{Binding ConnectButtonEnabled}"
+                  Content="连接" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="1" Margin="16" CornerRadius="8" ClipToBounds="True">
+      <DataGrid ItemsSource="{Binding ModuleInfos}"
+                SelectedItem="{Binding SelectedModule}"
+                IsReadOnly="True"
+                CanUserSortColumns="False"
+                GridLinesVisibility="Horizontal"
+                HeadersVisibility="Column"
+                RowHeight="36">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="设备ID" Width="*" Binding="{Binding DeviceId}" />
+          <DataGridTextColumn Header="型号" Width="130" Binding="{Binding ProductName}" />
+          <DataGridTextColumn Header="通道数" Width="80" Binding="{Binding ChannelCount}" />
+          <DataGridTextColumn Header="接口" Width="80" Binding="{Binding InterfaceType}" />
+        </DataGrid.Columns>
+      </DataGrid>
+    </Border>
+  </Grid>
+</Window>

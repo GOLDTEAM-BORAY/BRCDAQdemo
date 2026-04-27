@@ -1,5 +1,5 @@
-﻿using BRCDAQdemo.WPF.Core;
-using BRCDAQdemo.WPF.Core.ViewModels;
+using BRCDAQdemo.Core;
+using BRCDAQdemo.Core.ViewModels;
 using ScottPlot;
 using ScottPlot.DataSources;
 using ScottPlot.Plottables;

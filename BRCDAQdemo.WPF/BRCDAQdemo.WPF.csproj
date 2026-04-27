@@ -113,6 +113,24 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="CommunityToolkit.Mvvm">
+      <HintPath>$(NuGetPackageRoot)communitytoolkit.mvvm\8.4.2\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>$(NuGetPackageRoot)microsoft.bcl.asyncinterfaces\10.0.7\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ScottPlot">
+      <HintPath>$(NuGetPackageRoot)scottplot\5.1.58\lib\net462\ScottPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="ScottPlot.WPF">
+      <HintPath>$(NuGetPackageRoot)scottplot.wpf\5.1.58\lib\net462\ScottPlot.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>$(NuGetPackageRoot)skiasharp\3.119.0\ref\net462\SkiaSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>$(NuGetPackageRoot)system.memory\4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -185,15 +203,10 @@
     <Resource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces">
-      <Version>9.0.9</Version>
-    </PackageReference>
-    <PackageReference Include="ScottPlot.WPF">
-      <Version>5.0.56</Version>
-    </PackageReference>
-    <PackageReference Include="System.Drawing.Common">
-      <Version>9.0.9</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.7" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="ScottPlot.WPF" Version="5.1.58" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.7" />
     <PackageReference Include="System.Memory">
       <Version>4.6.3</Version>
     </PackageReference>
@@ -202,11 +215,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BRCDAQdemo.WPF.Core\BRCDAQdemo.WPF.Core.csproj">
+    <ProjectReference Include="..\BRCDAQdemo.Core\BRCDAQdemo.Core.csproj">
       <Project>{c4b5457c-1ebf-4ff0-9d0b-8382c7bb8bf3}</Project>
-      <Name>BRCDAQdemo.WPF.Core</Name>
+      <Name>BRCDAQdemo.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\CommunityToolkit.Mvvm.8.4.0\build\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.4.0\build\CommunityToolkit.Mvvm.targets')" />
 </Project>
